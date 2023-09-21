@@ -11,8 +11,11 @@
 * 1.2
 * Itagaki Fumihiko 10-Nov-92  -p で [?:][/] をスキップする
 * 1.3
+* Itagaki Fumihiko 20-Jan-93  GETPDB -> lea $10(a0),a0
+* Itagaki Fumihiko 20-Jan-93  引数 - と -- の扱いの変更
+* 1.4
 *
-* Usage: mkdir [ -p ] <パス名> ...
+* Usage: mkdir [ -p ] [ -- ] <パス名> ...
 
 .include doscall.h
 .include error.h
@@ -36,8 +39,7 @@ start:
 		dc.b	'#HUPAIR',0
 start1:
 		lea	stack_bottom(pc),a7		*  A7 := スタックの底
-		DOS	_GETPDB
-		movea.l	d0,a0				*  A0 : PDBアドレス
+		lea	$10(a0),a0			*  A0 : PDBアドレス
 		move.l	a7,d0
 		sub.l	a0,d0
 		move.l	d0,-(a7)
@@ -68,10 +70,19 @@ decode_opt_loop1:
 		cmpi.b	#'-',(a0)
 		bne	decode_opt_done
 
+		tst.b	1(a0)
+		beq	decode_opt_done
+
 		subq.l	#1,d7
 		addq.l	#1,a0
 		move.b	(a0)+,d0
+		cmp.b	#'-',d0
+		bne	decode_opt_loop2
+
+		tst.b	(a0)+
 		beq	decode_opt_done
+
+		subq.l	#1,a0
 decode_opt_loop2:
 		cmp.b	#'p',d0
 		bne	bad_option
@@ -316,7 +327,7 @@ werror_myname:
 .data
 
 	dc.b	0
-	dc.b	'## mkdir 1.3 ##  Copyright(C)1992 by Itagaki Fumihiko',0
+	dc.b	'## mkdir 1.4 ##  Copyright(C)1992-93 by Itagaki Fumihiko',0
 
 .even
 perror_table:
@@ -363,7 +374,7 @@ msg_failed:		dc.b	'”の作成に失敗しました',0
 msg_too_long_pathname:	dc.b	': パス名が長過ぎます',CR,LF,0
 msg_illegal_option:	dc.b	'不正なオプション -- ',0
 msg_too_few_args:	dc.b	'引数が足りません',0
-msg_usage:		dc.b	CR,LF,'使用法:  mkdir [-p] [-] <パス名> ...'
+msg_usage:		dc.b	CR,LF,'使用法:  mkdir [-p] [--] <パス名> ...'
 msg_newline:		dc.b	CR,LF,0
 dos_wildcard_all:	dc.b	'*.*',0
 *****************************************************************

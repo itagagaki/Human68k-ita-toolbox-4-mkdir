@@ -2,6 +2,6 @@ MANIFEST       このファイル
 README         まず最初にお読み下さい
 NOTICE         版権と許諾についての告示書
 DIRECTORY      ITA製品リスト
-CHANGES        MKDIRのモデルチェンジの履歴
-mkdir.1        MKDIRのマニュアル
-mkdir.x        MKDIR実行ファイル
+CHANGES        mkdirのモデルチェンジの履歴
+mkdir.1        mkdirのマニュアル
+mkdir.x        mkdir実行ファイル

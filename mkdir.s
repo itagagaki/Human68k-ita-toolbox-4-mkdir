@@ -7,6 +7,8 @@
 * Itagaki Fumihiko 24-Sep-92  ドライブを予め検査するのはやめた。
 *                             どうしたって完全にはチェックできないので。
 * 1.1
+* Itagaki Fumihiko 06-Nov-92  strip_excessive_slashesのバグfixに伴う改版。
+* 1.2
 *
 * Usage: mkdir [ -p ] <パス名> ...
 
@@ -297,7 +299,7 @@ werror_myname:
 .data
 
 	dc.b	0
-	dc.b	'## mkdir 1.1 ##  Copyright(C)1992 by Itagaki Fumihiko',0
+	dc.b	'## mkdir 1.2 ##  Copyright(C)1992 by Itagaki Fumihiko',0
 
 .even
 perror_table:

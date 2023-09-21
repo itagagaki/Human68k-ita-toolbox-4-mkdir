@@ -9,6 +9,8 @@
 * 1.1
 * Itagaki Fumihiko 06-Nov-92  strip_excessive_slashesのバグfixに伴う改版。
 * 1.2
+* Itagaki Fumihiko 10-Nov-92  -p で [?:][/] をスキップする
+* 1.3
 *
 * Usage: mkdir [ -p ] <パス名> ...
 
@@ -137,6 +139,21 @@ mkdir:
 		beq	mkdir_one
 ****************
 		movea.l	a0,a1
+		tst.b	(a1)
+		beq	make_path_check_root
+
+		cmpi.b	#':',1(a1)
+		bne	make_path_check_root
+
+		addq.l	#2,a1
+make_path_check_root:
+		cmpi.b	#'/',(a1)
+		beq	make_path_skip_root
+
+		cmpi.b	#'\',(a1)
+		bne	make_path_loop
+make_path_skip_root:
+		addq.l	#1,a1
 make_path_loop:
 		move.b	(a1)+,d0
 		beq	make_path_find_slash_done
@@ -299,7 +316,7 @@ werror_myname:
 .data
 
 	dc.b	0
-	dc.b	'## mkdir 1.2 ##  Copyright(C)1992 by Itagaki Fumihiko',0
+	dc.b	'## mkdir 1.3 ##  Copyright(C)1992 by Itagaki Fumihiko',0
 
 .even
 perror_table:

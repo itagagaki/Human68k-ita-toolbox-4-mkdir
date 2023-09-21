@@ -9,8 +9,8 @@ RM      = -rm -f
 INCLUDE = $(HOME)/fish/include
 
 DESTDIR   = A:/usr/ita
-BACKUPDIR = B:/mkdir/1.2
-RELEASE_ARCHIVE = MKDIR12
+BACKUPDIR = B:/mkdir/1.3
+RELEASE_ARCHIVE = MKDIR13
 RELEASE_FILES = MANIFEST README ../NOTICE ../DIRECTORY CHANGES mkdir.1 mkdir.x
 
 EXTLIB = $(HOME)/fish/lib/ita.l
